@@ -24,7 +24,7 @@ In one message:
 - Section 2 Arabic deck `https://claude.ai/artifact/6XUd3RE5KfiNeb258rk8sV`: read the slides of the layouts you will use and copy their markup, including the RTL handling (see `CLAUDE.md` → Arabic RTL). Slides by layout:
   `cover` Cover · `agenda` Agenda · `d1`…`d5` Divider · `desc`, `graphs`, `meas` Concept · `mv-note` Accent statement · `mv-vview`, `tb-vview` wide Screenshot (image above callouts) · `mv-dview`, `tb-freq`, `gr-box` Screenshot (image beside callouts) · `gr-histans` stat cards · `mv-data`, `tb-data` Exercise data · `ex1q` Exercise questions with a screenshot and fill-in blanks · `ex1ans` Exercise answers · `summary` Wrap-up.
 - For the English deck, read the same slides from `https://claude.ai/artifact/MVBsPhQFzoAijkU4GrTBxS`.
-- Section 1 (`https://claude.ai/artifact/DPpuZy1phoURcg819GWUhY`) has multiple-choice question slides (`ex1q`) and property cards (`wdl`), but uses the older RTL technique. Copy its layout, not its text markup.
+- Section 1 (`https://claude.ai/artifact/DPpuZy1phoURcg819GWUhY`) has multiple-choice question slides (`ex1q`) and property cards (`wdl`), but its rows use `row-reverse`. Copy its layout, and rewrite its rows as `CLAUDE.md` → Arabic RTL says.
 
 ## 3. Outline
 
@@ -48,14 +48,26 @@ For each language:
    - `faces`: Readex Pro, IBM Plex Sans Arabic, IBM Plex Mono (Google Fonts, as in Section 2).
    - `sections`: one entry per part, in the deck's language.
    - `designSystems`: `{"title":"Computer Application Sections","namespace":"compapp","artifact":"https://claude.ai/artifact/VLRrkrryr4GtjK1rRZivek","version":<the version you read>,"copiedAt":"<now>"}`, and install its tokens with `files["project/ds/compapp/tokens.json"] = {"artifact":"https://claude.ai/artifact/VLRrkrryr4GtjK1rRZivek","path":"project/tokens.json"}`.
-4. **Arabic deck: follow `CLAUDE.md` → Arabic RTL on every text box.** Keep one language per box, with no edge punctuation or leading numbers. Mixed sentences go in row-reverse segment rows, the footer and eyebrow are segment rows, and fill-in blanks are dashed boxes. This is the step that broke Section 2's first draft.
-5. Footer on every content slide: `Computer Application · سكشن N` (Arabic, as a segment row) or `Computer Application · Section N` (English), plus the two-digit page number.
+4. **Arabic deck: follow `CLAUDE.md` → Arabic RTL on every text box and row.**
+   - Each sentence is one box wrapped in U+202B … U+202C, SPSS terms included.
+   - No `row-reverse` anywhere. Rows are `row` + `justify-content:flex-end`, with children in visual order.
+   - Fill-in blanks are dashed boxes.
+
+   Section 2 broke twice here: once in PowerPoint (no `rtl`), and once from sentences split across `row-reverse` rows.
+5. Footer on every content slide: `Computer Application · سكشن N` (Arabic, one RLE-wrapped `<p>`) or `Computer Application · Section N` (English), plus the two-digit page number.
 6. Exercise answers go on the answers slide and in the questions slides' speaker notes.
+7. **Check the Arabic deck in the Slides engine itself.** A plain browser lays out flex rows differently from the engine. To render it:
+   1. Read `index.html`, `artifact-type/app.js` and `artifact-type/app.css` from the deck with Artifact `read` paths, and each image with `read` + its asset id.
+   2. Serve them next to `project/`, adding `_files.json` (`{"ver":"local","files":{"<path>":{"sha256":…,"size":…,"contentType":…}}}`) and the images at `/_blob/<id>`.
+   3. Open the page in Playwright. ArrowRight steps through the slides. Download › "PowerPoint, basic fonts" exports the `.pptx`.
+   4. Check the exported file with `soffice --headless --convert-to pdf`.
 
 ## 5. Record it in the repo
 
 1. Put the source in `Section N - files/` and add the section to the table in `README.md` with both deck links.
-2. The `.pptx` comes from the Arabic deck's Share › Export (download as PowerPoint). Ask the user to export it and upload it, named `سكشن N — <Arabic title>.pptx`. When it is in the repo, make the `.ppsx` from it with `python3 tools/make_ppsx.py "<the .pptx>"`. That script only changes the presentation's content type, which is the one difference between the two Section 1 files.
+2. The `.pptx` comes from the Arabic deck's Share › Export › **PowerPoint, basic fonts (.pptx)**. Export it yourself as in step 4.7, or ask the user to export and upload it. Name it `سكشن N — <Arabic title>.pptx`. Then, in this order:
+   - `python3 tools/fix_rtl.py "<the .pptx>"`. Without it, PowerPoint shows every mixed Arabic/English line in the wrong order.
+   - `python3 tools/make_ppsx.py "<the .pptx>"`. It only changes the presentation's content type, which is the one difference between the two Section 1 files.
 3. Commit the source, README and any exported decks on the working branch and push.
 
 ## 6. Report
