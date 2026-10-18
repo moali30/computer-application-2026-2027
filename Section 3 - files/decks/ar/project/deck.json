@@ -1,0 +1,84 @@
+{
+ "v": 4,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-18T12:32:59Z"
+ },
+ "title": "سكشن 3 — ثبات الاستبيان",
+ "cover": "cover",
+ "order": [
+  "cover",
+  "agenda",
+  "d1",
+  "why",
+  "alpha",
+  "d2",
+  "steps",
+  "read",
+  "d3",
+  "ex1data",
+  "ex1q",
+  "ex1out1",
+  "ex1out2",
+  "reverse",
+  "ex1decision",
+  "ex2data",
+  "ex2q",
+  "ex2ans",
+  "quiz",
+  "summary"
+ ],
+ "sections": {
+  "s1": {
+   "description": "الافتتاح وخطة السكشن",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "مفهوم الثبات ومعامل ألفا كرونباخ",
+   "start": "d1"
+  },
+  "s3": {
+   "description": "خطوات SPSS وقراءة المخرجات",
+   "start": "d2"
+  },
+  "s4": {
+   "description": "التمارين التطبيقية",
+   "start": "d3"
+  },
+  "s5": {
+   "description": "تمرين 1",
+   "start": "ex1data"
+  },
+  "s6": {
+   "description": "تمرين 2",
+   "start": "ex2data"
+  },
+  "s7": {
+   "description": "اختبر نفسك والخلاصة",
+   "start": "quiz"
+  }
+ },
+ "faces": {
+  "readex-pro": {
+   "family": "Readex Pro",
+   "href": "https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400..700&display=swap"
+  },
+  "ibm-plex-sans-arabic": {
+   "family": "IBM Plex Sans Arabic",
+   "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+  },
+  "ibm-plex-mono": {
+   "family": "IBM Plex Mono",
+   "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"
+  }
+ },
+ "designSystems": [
+  {
+   "title": "Computer Application Sections",
+   "namespace": "compapp",
+   "artifact": "https://claude.ai/artifact/VLRrkrryr4GtjK1rRZivek",
+   "version": "1790426911-4c65",
+   "copiedAt": "2026-10-18T12:32:59Z"
+  }
+ ]
+}
