@@ -8,8 +8,11 @@
  "cover": "cover",
  "order": [
   "cover",
+  "hook",
   "agenda",
   "d1",
+  "case",
+  "items",
   "why",
   "alpha",
   "d2",

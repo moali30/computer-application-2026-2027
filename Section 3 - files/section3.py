@@ -64,8 +64,20 @@ def build(lang, root, ds_record=None):
             L(k, "Horus University · 2026/2027", "Horus University · 2026/2027"),
             section=L(k, "الافتتاح وخطة السكشن", "Opening and plan"))
 
-    # 2 agenda
+    # 2 hook
+    k.add("hook", f'<div style="width:1500px; align-self:{k.self_start}; display:flex; flex-direction:column; gap:40px">'
+          + k.eyebrow(L(k, "قبل أن نبدأ", "Before we start"), "practice", dark=True)
+          + f'<h1 style="font-family:{DISPLAY}; font-size:96px; font-weight:700; line-height:1.15; color:{PAPER}">'
+          + k.t(L(k, "قرار بملايين الجنيهات مبني على 6 أسئلة", "A decision worth millions, built on 6 questions")) + '</h1>'
+          + k.p(L(k, "الجامعة ستقرر تحويل مواد كاملة إلى أونلاين بناءً على رأي الطلاب. لو الاستبيان نفسه لا يقيس بثبات، فالقرار كله سيُبنى على أرقام لا يُعتمد عليها.",
+                  "The university will decide whether to move whole courses online based on what students say. If the questionnaire itself is unreliable, the whole decision rests on numbers nobody can trust."), 40, MIST)
+          + '</div>', bg=INK, dark=True, justify="center",
+          notes=L(k, "اسأل الطلاب: لو الاستبيان طلع غلط، مين يتحمل نتيجة القرار؟ ثم انتقل لخطة السكشن.",
+                  "Ask: if the questionnaire is wrong, who pays for the decision? Then move to the plan."))
+
+    # 3 agenda
     k.agenda("agenda", L(k, "خطة السكشن", "Today"), L(k, "ماذا سنتعلم اليوم؟", "What we cover today"), [
+        L(k, "دراسة الحالة: استبيان التعليم الإلكتروني وعباراته الست", "The case study: the e-learning questionnaire and its six items"),
         L(k, "لماذا نقيس ثبات الاستبيان قبل تحليله؟", "Why we check a questionnaire's reliability before analysing it"),
         L(k, "معامل ألفا كرونباخ وكيف نحكم على قيمته", "Cronbach's alpha and how to judge its value"),
         L(k, "حساب ألفا في SPSS وقراءة جدول Item-Total Statistics", "Running alpha in SPSS and reading Item-Total Statistics"),
@@ -73,22 +85,55 @@ def build(lang, root, ds_record=None):
     ])
 
     # 3 divider 1
-    k.divider("d1", 1, 3, L(k, "لماذا نقيس الثبات؟", "Why reliability?"),
-              L(k, "قبل أن نحلل إجابات أي استبيان، نتأكد أنه يقيس بثبات", "Before analysing any questionnaire, we make sure it measures consistently"),
+    k.divider("d1", 1, 3, L(k, "الحالة والثبات", "The case and reliability"),
+              L(k, "استبيان الجامعة، ولماذا نتأكد من ثباته قبل تحليله", "The university's questionnaire, and why we check its reliability first"),
               section=L(k, "مفهوم الثبات ومعامل ألفا كرونباخ", "Reliability and Cronbach's alpha"))
 
-    # 4 why: scale analogy + the researcher's story
+    # case study (reused in later sections)
+    def ccard(tag, h, d):
+        return k.card(k.tag_row([tag]) + k.h3(h, size=36) + k.p(d, 28), gap=14, pad=32)
+    k.content("case", L(k, "دراسة الحالة", "Case study"), L(k, "هل تتوسع الجامعة في التعليم الإلكتروني؟", "Should the university expand e-learning?"),
+              k.cards([
+                  ccard(L(k, "القرار", "The decision"), L(k, "إدارة الجامعة", "University management"),
+                        L(k, "تريد أن تعرف اتجاه الطلاب نحو التعليم الإلكتروني قبل تحويل بعض المواد إلى أونلاين.",
+                          "Wants to know students' attitudes to e-learning before moving some courses online.")),
+                  ccard(L(k, "الأداة", "The tool"), L(k, "استبيان من جزأين", "A two-part questionnaire"),
+                        L(k, "الجزء (أ): بيانات الطالب (النوع، الكلية، الفرقة). الجزء (ب): 6 عبارات اتجاه بمقياس ليكرت الخماسي.",
+                          "Part A: student details (gender, faculty, year). Part B: 6 attitude items on a 5-point Likert scale.")),
+                  ccard(L(k, "الخطة", "The plan"), L(k, "عينة صغيرة ثم كبيرة", "Small sample, then large"),
+                        L(k, "تجربة على 10 طلاب (عينة استطلاعية) للتأكد من الثبات، ثم التوزيع على 400 طالب.",
+                          "Pilot on 10 students to check reliability, then send to 400 students.")),
+              ], 28) + k.tag(L(k, "سنعود إلى هذه الحالة في السكاشن القادمة: اليوم نختبر ثبات الجزء (ب)", "We come back to this case in later sections. Today: the reliability of Part B"), AMBER_TINT, AMBER_INK),
+              gap=40,
+              notes=L(k, "هذه الحالة هي الخيط الذي يربط السكاشن القادمة: الجزء (أ) سنستخدمه لاحقًا في المقارنة بين المجموعات، والجزء (ب) نبدأ به اليوم.",
+                      "This case links the coming sections: Part A will be used later to compare groups; Part B is today's focus."))
+
+    irows = [["q1", L(k, "التعليم الإلكتروني يوفر وقتي ومجهودي", "E-learning saves me time and effort")],
+             ["q2", L(k, "أفهم المحاضرة المسجلة كما أفهمها في القاعة", "I understand a recorded lecture as well as one in class")],
+             ["q3", L(k, "أفضّل أن تُدرَّس بعض المواد أونلاين بالكامل", "I would like some courses taught fully online")],
+             ["q4", L(k, "أفضّل المحاضرات التقليدية على التعليم الإلكتروني (عبارة سلبية)", "I prefer traditional lectures to e-learning (negative item)")],
+             ["q5", L(k, "منصة الجامعة الإلكترونية سهلة الاستخدام", "The university's e-learning platform is easy to use")],
+             ["q6", L(k, "أنصح زملائي بالمواد الإلكترونية", "I recommend online courses to my classmates")]]
+    k.content("items", L(k, "دراسة الحالة · الجزء (ب)", "Case study · Part B"), L(k, "العبارات الست التي سنقيسها", "The six items we measure"),
+              k.table([L(k, "الرمز", "Code"), L(k, "العبارة", "Item")], irows, [12, 88], 28, 1664, (0,))
+              + k.p(L(k, "1 = لا أوافق بشدة · 2 = لا أوافق · 3 = محايد · 4 = أوافق · 5 = أوافق بشدة",
+                      "1 = strongly disagree · 2 = disagree · 3 = neutral · 4 = agree · 5 = strongly agree"), 28),
+              gap=32,
+              notes=L(k, "اطلب من الطلاب ملاحظة أن q4 مكتوبة عكس باقي العبارات: الموافقة عليها تعني اتجاهًا سلبيًا. سنرى أثر ذلك على الثبات في التمرين.",
+                      "Point out that q4 is worded the other way round: agreeing with it means a negative attitude. We will see what that does to reliability in the exercise."))
+
+    # why: scale analogy
     scale = k.card(k.tag_row([L(k, "مثال من الحياة", "Everyday example")]) +
                    k.h3(L(k, "ميزان غير ثابت", "An unreliable scale"), size=40) +
                    k.p(L(k, "وقفت على الميزان ثلاث مرات في دقيقة واحدة فأعطاك:", "You step on a scale three times in one minute and it reads:"), 30) +
                    k.chip_row(["70 kg", "75 kg", "68 kg"]) +
                    k.p(L(k, "وزنك لم يتغير، إذن الميزان لا يُعتمد عليه.", "Your weight did not change, so the scale cannot be trusted."), 30, INK, 600))
-    survey = k.card(k.tag_row([L(k, "في البحث", "In research")], AMBER_TINT, AMBER_INK) +
-                    k.h3(L(k, "استبيان قبل توزيعه", "A questionnaire before it goes out"), size=40) +
-                    k.p(L(k, "باحثة صممت 6 عبارات لقياس اتجاه الطلاب نحو التعليم الإلكتروني، وتريد توزيعه على 400 طالب.",
-                          "A researcher wrote 6 items to measure students' attitudes to e-learning and plans to send it to 400 students."), 30) +
-                    k.p(L(k, "تجربه أولًا على 10 طلاب لتتأكد أن العبارات الست تقيس الشيء نفسه.",
-                          "She first tries it on 10 students to check that all six items measure the same thing."), 30, INK, 600))
+    survey = k.card(k.tag_row([L(k, "في حالتنا", "In our case")], AMBER_TINT, AMBER_INK) +
+                    k.h3(L(k, "استبيان غير ثابت", "An unreliable questionnaire"), size=40) +
+                    k.p(L(k, "لو الطالب المتحمس للتعليم الإلكتروني وافق على بعض العبارات ورفض عبارات مشابهة لها، فالعبارات لا تقيس الشيء نفسه.",
+                          "If a student who likes e-learning agrees with some items and rejects similar ones, the items are not measuring the same thing."), 30) +
+                    k.p(L(k, "هذا ما يكشفه اختبار الثبات قبل التوزيع على 400 طالب.",
+                          "That is what a reliability check catches before the survey goes to 400 students."), 30, INK, 600))
     k.content("why", L(k, "الفكرة", "The idea"), L(k, "أداة القياس يجب أن تكون ثابتة", "A measuring tool must be consistent"),
               k.cards([scale, survey]),
               notes=L(k, "ابدأ بسؤال: لو الميزان أعطاك ثلاث قراءات مختلفة هل تثق فيه؟ الاستبيان أداة قياس مثل الميزان، والعينة الصغيرة اسمها عينة استطلاعية (Pilot) نختبر بها الأداة قبل التوزيع الكبير.",
@@ -154,8 +199,8 @@ def build(lang, root, ds_record=None):
               section=L(k, "التمارين التطبيقية", "Exercises"))
 
     # 10 exercise 1 data (the section document's question)
-    side = (k.p(L(k, "أجرت إحدى الباحثات استبيانًا لقياس اتجاهات الطلاب نحو التعليم الإلكتروني: 6 أسئلة أجاب عنها 10 طلاب بمقياس ليكرت الخماسي.",
-                  "A researcher ran a questionnaire on students' attitudes to e-learning: 6 questions answered by 10 students on a 5-point Likert scale."), 28, INK) +
+    side = (k.p(L(k, "إجابات العينة الاستطلاعية في دراسة الحالة: 10 طلاب أجابوا عن عبارات الجزء (ب) الست (q1 إلى q6) بمقياس ليكرت الخماسي.",
+                  "The case study's pilot answers: 10 students rated the six Part B items (q1 to q6) on a 5-point Likert scale."), 28, INK) +
             k.p(L(k, "1 = لا أوافق بشدة · 2 = لا أوافق · 3 = محايد · 4 = أوافق · 5 = أوافق بشدة",
                   "1 = strongly disagree · 2 = disagree · 3 = neutral · 4 = agree · 5 = strongly agree"), 26) +
             task_card(L(k, "المطلوب", "Your task"), [
@@ -200,10 +245,10 @@ def build(lang, root, ds_record=None):
 
     # 14 statement: the reverse item
     k.statement("reverse", L(k, "لماذا q4؟", "Why q4?"), L(k, "عبارة واحدة معكوسة تكفي لإسقاط الثبات", "One reversed item can sink reliability"),
-                L(k, "الطالب الذي يوافق على العبارات الخمس يرفض q4، فالأرجح أنها صيغت بشكل سلبي، مثل: «أفضّل المحاضرات التقليدية على التعليم الإلكتروني». الحل: نحذفها، أو نعكس ترميزها (6 − القيمة).",
-                  "Students who agree with the other five items reject q4, so it was most likely worded negatively, e.g. “I prefer traditional lectures to e-learning”. The fix: drop it, or reverse its coding (6 − value)."),
-                notes=L(k, "نص العبارة الرابعة غير موجود في البيانات؛ المثال للتوضيح فقط. لو عكسنا ترميز q4 بدل حذفها تصبح ألفا 0.787. لن نطبق خطوات Recode اليوم.",
-                        "The actual wording of q4 is not in the data; the example is illustrative. Reverse-coding q4 instead of dropping it gives alpha 0.787. We are not doing the Recode steps today."))
+                L(k, "q4 «أفضّل المحاضرات التقليدية على التعليم الإلكتروني» مكتوبة بشكل سلبي: الطالب المتحمس يوافق على الخمس عبارات الأخرى ويرفضها. الحل: نحذفها، أو نعكس ترميزها (6 − القيمة).",
+                  "q4, “I prefer traditional lectures to e-learning”, is worded negatively: an enthusiastic student agrees with the other five and rejects it. The fix: drop it, or reverse its coding (6 − value)."),
+                notes=L(k, "لو عكسنا ترميز q4 بدل حذفها تصبح ألفا 0.787. لن نطبق خطوات Recode اليوم. الدرس: عند تصميم الاستبيان انتبه للعبارات السلبية.",
+                        "Reverse-coding q4 instead of dropping it gives alpha 0.787. We are not doing the Recode steps today. Lesson: watch for negative items when designing a questionnaire."))
 
     # 15 exercise 1 decision: before / after
     arrow = f'<x-shape kind="{"arrow-left" if k.ar else "arrow-right"}" style="flex:none; width:120px; height:60px; background:{AMBER}"></x-shape>'
