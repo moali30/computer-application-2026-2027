@@ -1,6 +1,6 @@
 # Section 3 — Questionnaire reliability (Cronbach's alpha): approved plan
 
-Status on 2026-10-18: questions asked and all recommendations approved by Mohamed; numbers computed; both decks built (20 slides each). Only the PowerPoint export is left (see HANDOFF.md). The source files and deck work are in PR #2 (branch `claude/section-3-rkdy8z`), which adds them under `Section 3 - files/`.
+Status on 2026-10-18: questions asked and all recommendations approved by Mohamed; numbers computed; both decks built (23 slides each, opening with a hook and the running case study in `CASE_STUDY.md`). Only the PowerPoint export is left (see HANDOFF.md). The source files and deck work are in PR #2 (branch `claude/section-3-rkdy8z`), which adds them under `Section 3 - files/`.
 
 ## Source
 

@@ -11,3 +11,4 @@ Collected from the original claude.ai project and from the Section 3 conversatio
 - He likes being asked short clarifying questions, each with options and a recommended one, and then he approves (for Section 3 he answered "موافق علي كل ما تم التوصية به").
 - Added questions should be **applied**: each one should come with a real-life scenario that explains why we run this analysis, without making the section too long.
 - Deliverables per section: both decks, plus the Arabic deck exported as `.pptx` and `.ppsx` in this repo.
+- From Section 3 on, each section opens with a short hook (why this matters) and builds on one running case study, "Should the university expand e-learning?", documented in `CASE_STUDY.md`. Part A of its questionnaire (gender, faculty, year) is reserved for later sections such as group comparisons; Part B holds the attitude items q1–q6, with q4 negatively worded on purpose. New sections keep extending this case instead of starting a new example.
