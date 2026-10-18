@@ -3,11 +3,6 @@ import sys, json
 sys.path.insert(0, __file__.rsplit("/", 1)[0])
 from sectionkit import *
 
-IMG = {
-    "ar": {"data": "/_blob/c3b95cd2072bb2747904516f34729099"},
-    "en": {"data": "/_blob/1db31628a483b3404485f3add64affbc"},
-}
-
 # (ar, en) pairs --------------------------------------------------------------
 L = lambda k, ar, en: ar if k.ar else en
 
@@ -15,6 +10,8 @@ L = lambda k, ar, en: ar if k.ar else en
 EX1_ITEMS = [("q1", "15.50", "16.278", ".660", ".449"), ("q2", "15.40", "14.933", ".829", ".368"),
              ("q3", "15.40", "16.933", ".570", ".489"), ("q4", "15.30", "28.900", "-.279", ".828"),
              ("q5", "15.10", "20.322", ".427", ".562"), ("q6", "15.30", "22.233", ".315", ".601")]
+EX1_DATA = [[4, 4, 5, 1, 3, 4], [4, 5, 4, 1, 5, 4], [5, 4, 5, 2, 4, 4], [3, 3, 4, 5, 3, 2], [2, 2, 1, 4, 2, 2],
+            [1, 2, 1, 5, 5, 5], [2, 1, 2, 1, 1, 3], [5, 5, 4, 5, 3, 3], [1, 1, 2, 4, 3, 2], [2, 3, 2, 3, 4, 2]]
 EX2_DATA = [[5, 4, 4, 4, 5], [4, 3, 4, 3, 4], [2, 3, 3, 2, 1], [3, 4, 2, 4, 3],
             [5, 5, 4, 3, 5], [2, 2, 1, 2, 3], [4, 5, 3, 4, 3], [1, 2, 2, 3, 2]]
 EX2_ITEMS = [("q1", "12.75", "13.357", ".959", ".802"), ("q2", "12.50", "17.143", ".751", ".858"),
@@ -26,17 +23,16 @@ ITEM_HDR = ["", "Scale Mean if Item Deleted", "Scale Variance if Item Deleted",
 
 def build(lang, root, ds_record=None):
     k = Kit(lang, "Computer Application", L(type("x", (), {"ar": lang == "ar"}), "سكشن 3", "Section 3"), root)
-    im = IMG[lang]
 
-    def spss_table(header, rows, widths, size=26, width=None, hl=None, title=None):
+    def spss_table(header, rows, widths, size=26, width=None, hl=None, title=None, pad="12px 16px"):
         """An SPSS output table. SPSS prints in English left-to-right, so columns are never reversed."""
-        th = "".join(f'<th style="width:{w}%; padding:12px 16px; text-align:{"left" if i == 0 else "center"}; color:{PAPER}; font-weight:600">{h}</th>'
+        th = "".join(f'<th style="width:{w}%; padding:{pad}; text-align:{"left" if i == 0 else "center"}; color:{PAPER}; font-weight:600">{h}</th>'
                      for i, (h, w) in enumerate(zip(header, widths)))
         body = ""
         for r_i, r in enumerate(rows):
             bg = AMBER_TINT if r_i == hl else (CARD if r_i % 2 == 0 else PAPER_ALT)
             body += f'<tr style="background:{bg}">' + "".join(
-                f'<td style="padding:12px 16px; text-align:{"left" if i == 0 else "center"}">{c}</td>' for i, c in enumerate(r)) + "</tr>"
+                f'<td style="padding:{pad}; text-align:{"left" if i == 0 else "center"}">{c}</td>' for i, c in enumerate(r)) + "</tr>"
         wcss = f" width:{width}px;" if width else ""
         cap = (f'<p style="font-family:{MONO}; font-size:26px; font-weight:600; color:{INK}; text-align:left">{title}</p>' if title else "")
         return (f'<div style="display:flex; flex-direction:column; gap:12px; align-self:{k.self_start}">{cap}'
@@ -204,15 +200,19 @@ def build(lang, root, ds_record=None):
             k.p(L(k, "1 = لا أوافق بشدة · 2 = لا أوافق · 3 = محايد · 4 = أوافق · 5 = أوافق بشدة",
                   "1 = strongly disagree · 2 = disagree · 3 = neutral · 4 = agree · 5 = strongly agree"), 26) +
             task_card(L(k, "المطلوب", "Your task"), [
+                L(k, "أدخل البيانات في SPSS.", "Enter the data in SPSS."),
                 L(k, "احسب ألفا كرونباخ للمقياس ككل.", "Compute Cronbach's alpha for the whole scale."),
                 L(k, "إذا كان الثبات منخفضًا: استخرج Item-Total Statistics مع Scale if item deleted وحدد السؤال الذي يرفع حذفه قيمة ألفا.",
                   "If it is low: get Item-Total Statistics with Scale if item deleted and find the question whose removal raises alpha."),
             ], None))
-    k.shot_slide("ex1data", L(k, "تمرين 1", "Exercise 1"), L(k, "اتجاهات الطلاب نحو التعليم الإلكتروني", "Attitudes to e-learning"),
-                 im["data"], L(k, "بيانات الأسئلة q1 إلى q6 لعشرة طلاب في نافذة Data View", "Data View with q1 to q6 for ten students"),
-                 760, 380, side, kind="practice", section=L(k, "تمرين 1", "Exercise 1"),
-                 notes=L(k, "اربط بالقصة: هذه هي العينة الاستطلاعية للباحثة. لو الثبات ضعيف ستعدّل الاستبيان قبل توزيعه على 400 طالب.",
-                         "Tie it to the story: this is the researcher's pilot sample. If reliability is weak she fixes the questionnaire before sending it to 400 students."))
+    data1 = spss_table(["#", "q1", "q2", "q3", "q4", "q5", "q6"], [[i + 1] + r for i, r in enumerate(EX1_DATA)],
+                       [16, 14, 14, 14, 14, 14, 14], 26, 720, pad="8px 16px")
+    k.content("ex1data", L(k, "تمرين 1", "Exercise 1"), L(k, "اتجاهات الطلاب نحو التعليم الإلكتروني", "Attitudes to e-learning"),
+              f'<div style="display:flex; flex-direction:{k.row}; gap:56px; align-items:start">{data1}'
+              f'<div style="flex:1; display:flex; flex-direction:column; gap:28px">{side}</div></div>',
+              kind="practice", bg=PAPER_ALT, section=L(k, "تمرين 1", "Exercise 1"),
+              notes=L(k, "يدخل الطلاب البيانات بأنفسهم: في Variable View يعرّفون q1 إلى q6 (Numeric، Decimals = 0، Measure = Ordinal)، ثم يدخلون الصفوف العشرة في Data View. هذه هي العينة الاستطلاعية في دراسة الحالة.",
+                      "Students enter the data themselves: in Variable View define q1 to q6 (Numeric, Decimals 0, Measure Ordinal), then type the ten rows in Data View. This is the case study's pilot sample."))
 
     # 11 exercise 1 questions
     k.mcq("ex1q", L(k, "تمرين 1 · الأسئلة", "Exercise 1 · Questions"), L(k, "شغّل التحليل ثم اختر", "Run the analysis, then choose"), [
