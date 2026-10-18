@@ -100,4 +100,4 @@ Lesson: all correlations are positive and above .30, and alpha is already good, 
 - English deck: https://claude.ai/artifact/RhHxJFmTCrA5LiJYEvdgbv
 - Both decks belong to Mohamed's first claude.ai account. From another account, publish new decks from `decks/ar` and `decks/en`.
 - Design system: https://claude.ai/artifact/VLRrkrryr4GtjK1rRZivek (namespace `compapp`).
-- Remaining: export the Arabic deck to PowerPoint, run `fix_rtl_pptx.py`, add the pptx/ppsx here like Section 1.
+- PowerPoint: `سكشن 3 — ثبات الاستبيان.pptx` / `.ppsx` in the repo root, made from the Slides PPTX export (2026-10-18) with `fix_rtl_pptx.py` (this folder; it now turns LRI-isolated numbers into an LRM prefix so .627 and −.279 keep their order). After the script, slide 13's table was shrunk by hand (cell sz 1263→1150, cell top/bottom margins 31750→12700 EMU) so row 10 clears the task tag; redo that after a fresh export.

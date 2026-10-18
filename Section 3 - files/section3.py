@@ -200,7 +200,7 @@ def build(lang, root, ds_record=None):
                         L(k, "نقارنها بـ 0.70", "Compare with 0.70")),
                   rcard("Corrected Item-Total", L(k, "ارتباط العبارة بالمقياس", "Item-to-scale correlation"),
                         L(k, "هل تسير العبارة في اتجاه باقي العبارات؟", "Does the item move with the rest of the scale?"),
-                        L(k, "سالب أو أقل من 0.30 = عبارة ضعيفة", "Negative or below 0.30 = weak item")),
+                        L(k, "أقل من 0.30 = عبارة ضعيفة", "Below 0.30 = weak item")),
                   rcard("Alpha if Item Deleted", L(k, "ألفا بعد حذف العبارة", "Alpha without the item"),
                         L(k, "قيمة ألفا لو حذفنا هذه العبارة فقط.", "What alpha would be with only this item removed."),
                         L(k, "أكبر من ألفا الحالية = حذفها يفيد", "Higher than current alpha = deleting helps")),
