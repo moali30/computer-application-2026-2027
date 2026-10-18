@@ -23,7 +23,7 @@ ARABIC = re.compile('[؀-ۿݐ-ݿﭐ-﷿ﹰ-ﻼ]')
 CONTROLS = re.compile('[‪-‮⁦-⁩]')
 PARA = re.compile(r'<a:p(?:\s[^>/]*)?>.*?</a:p>', re.S)  # not <a:p/>, not <a:pPr>
 RUN = re.compile(r'<a:r>.*?</a:r>', re.S)
-TEXT = re.compile(r'<a:t>([^<]*)</a:t>')
+TEXT = re.compile(r'<a:t(?:\s[^>]*)?>([^<]*)</a:t>')  # also <a:t xml:space="preserve">
 RTL_PARTS = re.compile(r'ppt/(slides|notesSlides)/[^/]+\.xml$')
 
 

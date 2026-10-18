@@ -29,7 +29,7 @@ When the user asks for a section ("اعمل سكشن 2", "make section 3", or ad
 
 Hard rules (from the design system):
 
-- **Never invent content.** Slides carry the document's own definitions, examples and exercises. Anything added for teaching goes in speaker notes.
+- **Never invent content.** Slides carry the document's own definitions, examples and exercises. Anything added for teaching goes in speaker notes. The one exception: additions Mohamed approved for a specific section and recorded in its plan (for Section 3, `docs/section-3-plan.md`: short theory, the pilot-study scenario and two applied questions) go on the slides.
 - SPSS interface words stay in English exactly as SPSS shows them (`Variable View`, `Type`, `Values`, `Scale`), inside Arabic sentences.
 - Arabic decks: `text-align:right`, rows in visual order (never `row-reverse`), no `<ul>`/`<ol>`, no letter-spacing. See "Arabic RTL" below.
 
