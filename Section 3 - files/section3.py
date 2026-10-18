@@ -194,25 +194,26 @@ def build(lang, root, ds_record=None):
               L(k, "استبيانان حقيقيان: واحد يحتاج تعديلًا وواحد جاهز", "Two real questionnaires: one needs fixing, one is ready"),
               section=L(k, "التمارين التطبيقية", "Exercises"))
 
-    # 10 exercise 1 data (the section document's question)
-    side = (k.p(L(k, "إجابات العينة الاستطلاعية في دراسة الحالة: 10 طلاب أجابوا عن عبارات الجزء (ب) الست (q1 إلى q6) بمقياس ليكرت الخماسي.",
-                  "The case study's pilot answers: 10 students rated the six Part B items (q1 to q6) on a 5-point Likert scale."), 28, INK) +
-            k.p(L(k, "1 = لا أوافق بشدة · 2 = لا أوافق · 3 = محايد · 4 = أوافق · 5 = أوافق بشدة",
-                  "1 = strongly disagree · 2 = disagree · 3 = neutral · 4 = agree · 5 = strongly agree"), 26) +
-            task_card(L(k, "المطلوب", "Your task"), [
-                L(k, "أدخل البيانات في SPSS.", "Enter the data in SPSS."),
-                L(k, "احسب ألفا كرونباخ للمقياس ككل.", "Compute Cronbach's alpha for the whole scale."),
-                L(k, "إذا كان الثبات منخفضًا: استخرج Item-Total Statistics مع Scale if item deleted وحدد السؤال الذي يرفع حذفه قيمة ألفا.",
-                  "If it is low: get Item-Total Statistics with Scale if item deleted and find the question whose removal raises alpha."),
-            ], None))
-    data1 = spss_table(["#", "q1", "q2", "q3", "q4", "q5", "q6"], [[i + 1] + r for i, r in enumerate(EX1_DATA)],
-                       [16, 14, 14, 14, 14, 14, 14], 26, 720, pad="8px 16px")
+    # 10 exercise 1 data (the section document's question): item wording above each code, typed table for data entry
+    clean = lambda t: t.replace(" (عبارة سلبية)", "").replace(" (negative item)", "")
+    hdr = ["#"] + [k.t(f"{code}: {clean(text)}") if not k.ar else k.t(f"{clean(text)} ({code})") for code, text in irows]
+    widths = [6] + [94 / 6] * 6
+    rows = [[i + 1] + r for i, r in enumerate(EX1_DATA)]
+    if k.ar:
+        hdr, widths, rows = hdr[::-1], widths[::-1], [r[::-1] for r in rows]
+    th = "".join(f'<th style="width:{w:.2f}%; padding:5px 12px; text-align:center; color:{PAPER}; font-weight:600; font-size:24px; line-height:1.3">{h}</th>'
+                 for h, w in zip(hdr, widths))
+    body = "".join(f'<tr style="background:{CARD if i % 2 == 0 else PAPER_ALT}">'
+                   + "".join(f'<td style="padding:5px 12px; text-align:center">{c}</td>' for c in r) + "</tr>"
+                   for i, r in enumerate(rows))
+    data1 = (f'<table style="width:1664px; font-size:26px; line-height:1.2; color:{INK}; border:1px solid {RULE}; border-radius:8px; '
+             f'font-variant-numeric:tabular-nums"><tr style="background:{INK}">{th}</tr>{body}</table>')
     k.content("ex1data", L(k, "تمرين 1", "Exercise 1"), L(k, "اتجاهات الطلاب نحو التعليم الإلكتروني", "Attitudes to e-learning"),
-              f'<div style="display:flex; flex-direction:{k.row}; gap:56px; align-items:start">{data1}'
-              f'<div style="flex:1; display:flex; flex-direction:column; gap:28px">{side}</div></div>',
-              kind="practice", bg=PAPER_ALT, section=L(k, "تمرين 1", "Exercise 1"),
-              notes=L(k, "يدخل الطلاب البيانات بأنفسهم: في Variable View يعرّفون q1 إلى q6 (Numeric، Decimals = 0، Measure = Ordinal)، ثم يدخلون الصفوف العشرة في Data View. هذه هي العينة الاستطلاعية في دراسة الحالة.",
-                      "Students enter the data themselves: in Variable View define q1 to q6 (Numeric, Decimals 0, Measure Ordinal), then type the ten rows in Data View. This is the case study's pilot sample."))
+              data1 + k.tag(L(k, "المطلوب: أدخل البيانات في SPSS ← احسب ألفا كرونباخ ← لو الثبات ضعيف استخرج Item-Total Statistics",
+                              "Your task: enter the data in SPSS → compute Cronbach's alpha → if it is low, get Item-Total Statistics"), AMBER_TINT, AMBER_INK),
+              kind="practice", bg=PAPER_ALT, gap=28, section=L(k, "تمرين 1", "Exercise 1"),
+              notes=L(k, "يدخل الطلاب البيانات بأنفسهم: في Variable View يعرّفون q1 إلى q6 (Numeric، Decimals = 0، Measure = Ordinal، ويكتبون نص العبارة في Label)، ثم يدخلون الصفوف العشرة في Data View. المقياس: 1 = لا أوافق بشدة حتى 5 = أوافق بشدة. المطلوب الثالث: Statistics ثم Scale if item deleted لتحديد السؤال الذي يرفع حذفه قيمة ألفا.",
+                      "Students enter the data themselves: in Variable View define q1 to q6 (Numeric, Decimals 0, Measure Ordinal, item wording in Label), then type the ten rows in Data View. Scale: 1 = strongly disagree to 5 = strongly agree. Third step: Statistics, Scale if item deleted, to find the question whose removal raises alpha."))
 
     # 11 exercise 1 questions
     k.mcq("ex1q", L(k, "تمرين 1 · الأسئلة", "Exercise 1 · Questions"), L(k, "شغّل التحليل ثم اختر", "Run the analysis, then choose"), [
