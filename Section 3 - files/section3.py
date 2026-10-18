@@ -1,7 +1,24 @@
 """Section 3 — Questionnaire reliability (Cronbach's alpha). Content for the Arabic and English decks."""
-import sys, json
+import sys, json, re
 sys.path.insert(0, __file__.rsplit("/", 1)[0])
 from sectionkit import *
+
+AR_CHARS = re.compile(r"[\u0600-\u06FF]")
+# Numbers whose sign or leading dot the RTL embedding would move: .627 → 627. , −.279 → .279−, (6 − value)
+LTR_NUM = re.compile(r"[−-]?\d*\.\d+|[−-]\d+(?:\.\d+)?|\d+(?:\.\d+)?\s?[−–-]\s?\d+(?:\.\d+)?")
+LRI, PDI = "\u2066", "\u2069"
+
+
+class RtlKit(Kit):
+    """Kit.t with two fixes for Arabic slides: text with no Arabic letters stays left-to-right, and
+    signed or dot-led numbers inside Arabic text are isolated so the RTL embedding keeps them intact."""
+    def t(self, s):
+        if not self.ar or not isinstance(s, str):
+            return s
+        if not AR_CHARS.search(s):
+            return s
+        return super().t(LTR_NUM.sub(lambda m: f"{LRI}{m.group(0)}{PDI}", s))
+
 
 # (ar, en) pairs --------------------------------------------------------------
 L = lambda k, ar, en: ar if k.ar else en
@@ -22,7 +39,7 @@ ITEM_HDR = ["", "Scale Mean if Item Deleted", "Scale Variance if Item Deleted",
 
 
 def build(lang, root, ds_record=None):
-    k = Kit(lang, "Computer Application", L(type("x", (), {"ar": lang == "ar"}), "سكشن 3", "Section 3"), root)
+    k = RtlKit(lang, "Computer Application", L(type("x", (), {"ar": lang == "ar"}), "سكشن 3", "Section 3"), root)
 
     def spss_table(header, rows, widths, size=26, width=None, hl=None, title=None, pad="12px 16px"):
         """An SPSS output table. SPSS prints in English left-to-right, so columns are never reversed."""
@@ -136,7 +153,7 @@ def build(lang, root, ds_record=None):
                       "Open with: would you trust a scale that gives three different readings? A questionnaire is a measuring tool like the scale; the small trial group is a pilot sample used to test the tool before the full survey."))
 
     # 5 alpha: definition + judgement table
-    jrows = [["0.90 +", L(k, "ممتاز", "Excellent")], ["0.80 – 0.89", L(k, "جيد", "Good")],
+    jrows = [[L(k, "0.90 فأكثر", "0.90 +"), L(k, "ممتاز", "Excellent")], ["0.80 – 0.89", L(k, "جيد", "Good")],
              ["0.70 – 0.79", L(k, "مقبول", "Acceptable")], ["0.60 – 0.69", L(k, "ضعيف", "Weak")],
              [L(k, "أقل من 0.60", "below 0.60"), L(k, "غير مقبول", "Unacceptable")]]
     left = (f'<div style="flex:1; display:flex; flex-direction:column; gap:28px">'
@@ -320,7 +337,7 @@ def build(lang, root, ds_record=None):
     k.add("summary", k.head(L(k, "الخلاصة", "Wrap-up"), L(k, "ما الذي يجب أن تتذكره؟", "What to remember"), "practice", dark=True) + k.cards([
         sc(1, L(k, "الثبات أولًا", "Reliability first"), L(k, "نتأكد من ثبات الاستبيان على عينة صغيرة قبل توزيعه وتحليله.",
                                                          "Check reliability on a small pilot before sending and analysing the questionnaire.")),
-        sc(2, L(k, "ألفا ≥ 0.70", "Alpha ≥ 0.70"), L(k, "Analyze › Scale › Reliability Analysis، ونحكم على القيمة مقابل 0.70.",
+        sc(2, L(k, "ألفا 0.70 فأكثر", "Alpha ≥ 0.70"), L(k, "Analyze › Scale › Reliability Analysis، ونحكم على القيمة مقابل 0.70.",
                                                     "Analyze › Scale › Reliability Analysis, then judge the value against 0.70.")),
         sc(3, L(k, "العبارة الضعيفة", "The weak item"), L(k, "ارتباط سالب أو ألفا بعد الحذف أعلى من الحالية: غالبًا عبارة معكوسة نحذفها أو نعكسها.",
                                                           "A negative correlation, or higher alpha without it: usually a reversed item to drop or recode.")),
