@@ -10,7 +10,7 @@ SPSS lab sections for Computer Application, Horus University, 2026/2027. Every s
 | --- | --- | --- | --- | --- |
 | 1 | [سكشن 1 — مقدمة في SPSS](https://claude.ai/artifact/DPpuZy1phoURcg819GWUhY) | [Section 1 — Introduction to SPSS](https://claude.ai/artifact/ANxUTh6YSTC7vW3xHRTQBo) | `Section 1 - files/SPSS عربي 1.docx` | `سكشن 1 — مقدمة في SPSS.pptx`, `.ppsx` |
 | 2 | [سكشن 2 — القيم المفقودة والإحصاء الوصفي](https://claude.ai/artifact/6XUd3RE5KfiNeb258rk8sV) | [Section 2 — Missing Values and Descriptive Statistics](https://claude.ai/artifact/MVBsPhQFzoAijkU4GrTBxS) | `Section 2 - files/SPSS عربي 2.pptx` | `سكشن 2 — القيم المفقودة والإحصاء الوصفي.pptx`, `.ppsx` |
-| 3 | In progress (branch `claude/section-3`) | In progress | `Section 3 - files/spss section 3.docx` | — |
+| 3 | In progress (PR #2, branch `claude/section-3-rkdy8z`) | In progress | `Section 3 - files/spss section 3.docx` | — |
 
 ## Adding a section
 

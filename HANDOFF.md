@@ -16,9 +16,9 @@ Claude Code reads `CLAUDE.md` automatically; the `new-section` skill in `.claude
 | --- | --- | --- | --- |
 | 1 | Introduction to SPSS | Done: Arabic + English decks, `.pptx` / `.ppsx` | repo root, `Section 1 - files/` |
 | 2 | Missing values and descriptive statistics | Done: Arabic + English decks, `.pptx` / `.ppsx` | repo root, `Section 2 - files/` |
-| 3 | Questionnaire reliability (Cronbach's alpha) | **In progress**: content planned and approved, decks being built | `Section 3 - files/` (source), branch `claude/section-3` (deck work), plan in [`docs/section-3-plan.md`](docs/section-3-plan.md) |
+| 3 | Questionnaire reliability (Cronbach's alpha) | **In progress**: content planned and approved, decks being built | PR #2 (branch `claude/section-3-rkdy8z`) holds the source files and the deck work; approved decisions in [`docs/section-3-plan.md`](docs/section-3-plan.md) |
 
-If branch `claude/section-3` has commits, continue from it rather than starting over.
+Continue Section 3 from PR #2's branch rather than starting over, and merge it when the decks are done.
 
 ## The claude.ai artifacts (important)
 
@@ -42,4 +42,4 @@ See [`docs/preferences.md`](docs/preferences.md). In short: one Arabic deck (RTL
 - `tools/legacy-kit/`: the older Python kit used for Section 1 (layout generator, local preview renderer, first RTL fixer). Kept for reference and for its token values; the skill above is the current method.
 - `docs/section-workflow-v1.md`: the original workflow notes from the first project.
 - `docs/preferences.md`: Mohamed's stated preferences.
-- `docs/section-3-plan.md`: the approved plan and computed answers for Section 3.
+- `docs/section-3-plan.md`: the approved decisions and computed answers for Section 3.

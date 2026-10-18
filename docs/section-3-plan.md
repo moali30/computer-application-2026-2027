@@ -1,6 +1,6 @@
 # Section 3 — Questionnaire reliability (Cronbach's alpha): approved plan
 
-Status on 2026-10-18: questions asked and all recommendations approved by Mohamed; numbers computed; decks not built yet. Deck work happens on branch `claude/section-3`.
+Status on 2026-10-18: questions asked and all recommendations approved by Mohamed; numbers computed; decks not built yet. The source files and deck work are in PR #2 (branch `claude/section-3-rkdy8z`), which adds them under `Section 3 - files/`.
 
 ## Source
 
