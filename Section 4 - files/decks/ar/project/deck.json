@@ -1,0 +1,112 @@
+{
+ "v": 4,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-24T11:22:25Z"
+ },
+ "title": "سكشن 4 — اختبارات الفروض للمتوسط",
+ "cover": "cover",
+ "order": [
+  "cover",
+  "hook",
+  "agenda",
+  "d1",
+  "case",
+  "hyp",
+  "rule",
+  "d2",
+  "os-how",
+  "os-shots",
+  "ex1data",
+  "ex1ans",
+  "casea",
+  "caseaans",
+  "d3",
+  "ps-how",
+  "ps-shots",
+  "ex3data",
+  "ex3ans",
+  "caseb",
+  "casebans",
+  "alpha",
+  "d4",
+  "ex2a",
+  "ex2b",
+  "ex4a",
+  "ex4b",
+  "summary"
+ ],
+ "sections": {
+  "s1": {
+   "description": "الافتتاح وخطة السكشن",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "الفرض الإحصائي وقاعدة القرار",
+   "start": "d1"
+  },
+  "s3": {
+   "description": "اختبار عينة واحدة One Sample T-Test",
+   "start": "d2"
+  },
+  "s4": {
+   "description": "مثال 1",
+   "start": "ex1data"
+  },
+  "s5": {
+   "description": "تطبيق 1 على الحالة",
+   "start": "casea"
+  },
+  "s6": {
+   "description": "اختبار عينتين مترابطتين Paired Samples T-Test",
+   "start": "d3"
+  },
+  "s7": {
+   "description": "مثال 3",
+   "start": "ex3data"
+  },
+  "s8": {
+   "description": "تطبيق 2 على الحالة",
+   "start": "caseb"
+  },
+  "s9": {
+   "description": "قراءة المخرجات: أمثلة 2 و 4",
+   "start": "d4"
+  },
+  "s10": {
+   "description": "مثال 2",
+   "start": "ex2a"
+  },
+  "s11": {
+   "description": "مثال 4",
+   "start": "ex4a"
+  },
+  "s12": {
+   "description": "الخلاصة",
+   "start": "summary"
+  }
+ },
+ "faces": {
+  "readex-pro": {
+   "family": "Readex Pro",
+   "href": "https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400..700&display=swap"
+  },
+  "ibm-plex-sans-arabic": {
+   "family": "IBM Plex Sans Arabic",
+   "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+  },
+  "ibm-plex-mono": {
+   "family": "IBM Plex Mono",
+   "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"
+  }
+ },
+ "designSystems": [
+  {
+   "title": "Computer Application Sections",
+   "namespace": "compapp",
+   "artifact": "https://claude.ai/artifact/VLRrkrryr4GtjK1rRZivek",
+   "version": "1790426911-4c65",
+   "copiedAt": "2026-10-24T11:18:46Z"
+  }
+ ]
+}
