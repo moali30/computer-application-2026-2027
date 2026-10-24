@@ -1,7 +1,10 @@
-"""Add click-to-reveal answers to the quiz slides of the exported Section 4 PowerPoint (Arabic or English).
+"""Add click-to-reveal answers to the exported Section 4 PowerPoint (Arabic or English).
 
-For each question, a green highlight is drawn over the correct option's pill and
-fades in on the next click (question 1 on the first click, then 2, ...).
+Quiz slides: for each question, a green highlight is drawn over the correct
+option's pill and fades in on the next click (question 1 on the first click, then 2, ...).
+Solution slides (examples 1 and 3, case applications 1 and 2): the decision card
+and the headline, which states the conclusion, fade in together on the first
+click, after the class has read the SPSS output.
 Run it after fix_rtl_pptx.py:
     python3 add_answer_animations.py "<in>.pptx" "<out>.pptx" ar|en
 """
@@ -10,6 +13,8 @@ import re, sys, zipfile
 # slide number -> correct option letter per question, in question order (slides ex2a, ex2b, ex4a, ex4b)
 ANSWERS = {"ar": {24: "أجبج", 25: "جأأ", 26: "أبج", 27: "بب"},
            "en": {24: "acbc", 25: "caa", 26: "abc", 27: "bb"}}
+REVEAL = {12, 14, 19, 21}  # solution slides: ex1ans, caseaans, ex3ans, casebans
+CARDS = {"FBEBD0", "DDEFE3"}  # amber (accept H0) and green (reject H0) decision cards
 BADGE = 330200  # question-number badge: 52 px on the 1920 px (12192000 EMU) slide
 GREEN = "2E8B57"
 PAD = 38100  # highlight grows 3 pt around the pill
@@ -49,6 +54,52 @@ def click_fade(ids, spid):
             f'</p:childTnLst></p:cTn></p:par></p:childTnLst></p:cTn></p:par></p:childTnLst></p:cTn></p:par>')
 
 
+def timing(pars, blds):
+    return ('<p:timing><p:tnLst><p:par><p:cTn id="1" dur="indefinite" restart="never" nodeType="tmRoot"><p:childTnLst>'
+            '<p:seq concurrent="1" nextAc="seek"><p:cTn id="2" dur="indefinite" nodeType="mainSeq"><p:childTnLst>'
+            + ''.join(pars) +
+            '</p:childTnLst></p:cTn><p:prevCondLst><p:cond evt="onPrev" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:prevCondLst>'
+            '<p:nextCondLst><p:cond evt="onNext" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:nextCondLst></p:seq>'
+            '</p:childTnLst></p:cTn></p:par></p:tnLst><p:bldLst>' + ''.join(blds) + '</p:bldLst></p:timing>')
+
+
+def put_timing(x, t):
+    assert '<p:timing' not in x
+    m = re.search(r'<p:extLst>(?:(?!<p:extLst>).)*</p:extLst></p:sld>$', x, re.S)
+    return x[:m.start()] + t + x[m.start():] if m else x.replace('</p:sld>', t + '</p:sld>')
+
+
+def reveal(x):
+    """One click fades in the decision card, the text on it and the headline."""
+    sps = []
+    for sp in re.findall(r'<p:sp>.*?</p:sp>', x, re.S):
+        o = re.search(r'<a:off x="(\d+)" y="(\d+)"/><a:ext cx="(\d+)" cy="(\d+)"', sp)
+        fill = re.search(r'<p:spPr>(?:(?!</p:spPr>).)*?<a:solidFill><a:srgbClr val="(\w+)"', sp, re.S)
+        sps.append(dict(id=re.search(r'<p:cNvPr id="(\d+)"', sp)[1], fill=fill and fill[1],
+                        x=int(o[1]), y=int(o[2]), w=int(o[3]), h=int(o[4]), t='<a:t>' in sp))
+    card = [s for s in sps if s['fill'] in CARDS]
+    assert len(card) == 1, card
+    c = card[0]
+    on_card = [s['id'] for s in sps if s['t'] and c['x'] - 200000 <= s['x'] <= c['x'] + c['w'] and c['y'] <= s['y'] <= c['y'] + c['h']]
+    assert len(on_card) == 2, on_card
+    ids = [sps[1]['id'], c['id']] + on_card  # sps[0] is the eyebrow, sps[1] the headline
+    effects = []
+    for n, spid in enumerate(ids):
+        a, b = 5 + 2 * n, 6 + 2 * n
+        tgt = f'<p:tgtEl><p:spTgt spid="{spid}"/></p:tgtEl>'
+        effects.append(f'<p:par><p:cTn id="{a}" presetID="10" presetClass="entr" presetSubtype="0" fill="hold" grpId="0" '
+                       f'nodeType="{"clickEffect" if n == 0 else "withEffect"}"><p:stCondLst><p:cond delay="0"/></p:stCondLst><p:childTnLst>'
+                       f'<p:set><p:cBhvr><p:cTn id="{a + 100}" dur="1" fill="hold"><p:stCondLst><p:cond delay="0"/></p:stCondLst></p:cTn>{tgt}'
+                       f'<p:attrNameLst><p:attrName>style.visibility</p:attrName></p:attrNameLst></p:cBhvr><p:to><p:strVal val="visible"/></p:to></p:set>'
+                       f'<p:animEffect transition="in" filter="fade"><p:cBhvr><p:cTn id="{b}" dur="500"/>{tgt}</p:cBhvr></p:animEffect>'
+                       f'</p:childTnLst></p:cTn></p:par>')
+    par = ('<p:par><p:cTn id="3" fill="hold"><p:stCondLst><p:cond delay="indefinite"/></p:stCondLst><p:childTnLst>'
+           '<p:par><p:cTn id="4" fill="hold"><p:stCondLst><p:cond delay="0"/></p:stCondLst><p:childTnLst>'
+           + ''.join(effects) + '</p:childTnLst></p:cTn></p:par></p:childTnLst></p:cTn></p:par>')
+    blds = [f'<p:bldP spid="{i}" grpId="0" animBg="1"/>' for i in ids]
+    return put_timing(x, timing([par], blds))
+
+
 def add(x, letters):
     sh = shapes(x)
     # the exporter writes some rounded shapes as custom geometry, so shapes are matched by size and text only
@@ -71,15 +122,7 @@ def add(x, letters):
         nid += 1
         tid += 5
     x = x.replace('</p:spTree>', ''.join(new) + '</p:spTree>', 1)
-    timing = ('<p:timing><p:tnLst><p:par><p:cTn id="1" dur="indefinite" restart="never" nodeType="tmRoot"><p:childTnLst>'
-              '<p:seq concurrent="1" nextAc="seek"><p:cTn id="2" dur="indefinite" nodeType="mainSeq"><p:childTnLst>'
-              + ''.join(pars) +
-              '</p:childTnLst></p:cTn><p:prevCondLst><p:cond evt="onPrev" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:prevCondLst>'
-              '<p:nextCondLst><p:cond evt="onNext" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:nextCondLst></p:seq>'
-              '</p:childTnLst></p:cTn></p:par></p:tnLst><p:bldLst>' + ''.join(blds) + '</p:bldLst></p:timing>')
-    assert '<p:timing' not in x
-    m = re.search(r'<p:extLst>(?:(?!<p:extLst>).)*</p:extLst></p:sld>$', x, re.S)
-    return x[:m.start()] + timing + x[m.start():] if m else x.replace('</p:sld>', timing + '</p:sld>')
+    return put_timing(x, timing(pars, blds))
 
 
 src, dst, lang = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -92,5 +135,8 @@ for item in zin.infolist():
     if m and int(m[1]) in ANSWERS:
         data = add(data.decode('utf-8'), ANSWERS[int(m[1])]).encode('utf-8')
         print('slide', m[1], 'answers', ANSWERS[int(m[1])])
+    elif m and int(m[1]) in REVEAL:
+        data = reveal(data.decode('utf-8')).encode('utf-8')
+        print('slide', m[1], 'decision on click')
     zout.writestr(item, data)
 zout.close()

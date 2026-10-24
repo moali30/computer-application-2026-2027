@@ -20,7 +20,7 @@ The design system is the single source of truth for colours, type, layouts and R
 
 - `Section N - files/` — the section source for section N: a `.docx` (Section 1) or an older `.pptx` deck (Section 2), with the SPSS screenshots embedded. This is the only content source for the slides.
 - `سكشن N — <Arabic title>.pptx` / `.ppsx` — the exported Arabic deck at the repo root, after `tools/fix_rtl.py` (see Arabic RTL).
-- `tools/` — `fix_rtl.py` makes an exported deck's Arabic paragraphs right-to-left; `make_ppsx.py` turns the `.pptx` into the `.ppsx`.
+- `tools/` — `fix_rtl.py` makes an exported deck's Arabic paragraphs right-to-left; `fit_text_pptx.py` shrinks text that would overflow its box in Tahoma; `make_ppsx.py` turns the `.pptx` into the `.ppsx`.
 - `README.md` — table of sections with links to their decks.
 
 ## Making a section
@@ -51,7 +51,7 @@ Rules for the slide HTML:
 
 Rules for the exported file:
 
-- Export the Arabic deck with **Share › Export › PowerPoint, basic fonts (.pptx)**, which uses Tahoma, as in Section 1. Then run `python3 tools/fix_rtl.py "<deck>.pptx"` before `tools/make_ppsx.py`. It sets `rtl="1"` and `lang="ar-EG"` on every Arabic paragraph (slides, tables, speaker notes) and removes the bidi control characters, matching how the Section 1 file is written.
+- Export the Arabic deck with **Share › Export › PowerPoint, basic fonts (.pptx)**, which uses Tahoma, as in Section 1. Then run `python3 tools/fix_rtl.py "<deck>.pptx"`, then `python3 tools/fit_text_pptx.py "<deck>.pptx"` (Tahoma is about 15–20% wider than the web fonts, so without it titles wrap to an extra line and run into the text below), before `tools/make_ppsx.py`. It sets `rtl="1"` and `lang="ar-EG"` on every Arabic paragraph (slides, tables, speaker notes) and removes the bidi control characters, matching how the Section 1 file is written.
 
 General:
 
