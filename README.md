@@ -10,7 +10,8 @@ SPSS lab sections for Computer Application, Horus University, 2026/2027. Every s
 | --- | --- | --- | --- | --- |
 | 1 | [سكشن 1 — مقدمة في SPSS](https://claude.ai/artifact/DPpuZy1phoURcg819GWUhY) | [Section 1 — Introduction to SPSS](https://claude.ai/artifact/ANxUTh6YSTC7vW3xHRTQBo) | `Section 1 - files/SPSS عربي 1.docx` | `سكشن 1 — مقدمة في SPSS.pptx`, `.ppsx` |
 | 2 | [سكشن 2 — القيم المفقودة والإحصاء الوصفي](https://claude.ai/artifact/6XUd3RE5KfiNeb258rk8sV) | [Section 2 — Missing Values and Descriptive Statistics](https://claude.ai/artifact/MVBsPhQFzoAijkU4GrTBxS) | `Section 2 - files/SPSS عربي 2.pptx` | `سكشن 2 — القيم المفقودة والإحصاء الوصفي.pptx`, `.ppsx` |
-| 3 | [سكشن 3 — ثبات الاستبيان](https://claude.ai/artifact/TGvyXFyJS92FRpTcqjLnb9) | [Section 3 — Questionnaire Reliability](https://claude.ai/artifact/RhHxJFmTCrA5LiJYEvdgbv) | `Section 3 - files/spss section 3.docx` (PR #2) | `.pptx` not exported yet |
+| 3 | [سكشن 3 — ثبات الاستبيان](https://claude.ai/artifact/TGvyXFyJS92FRpTcqjLnb9) | [Section 3 — Questionnaire Reliability](https://claude.ai/artifact/RhHxJFmTCrA5LiJYEvdgbv) | `Section 3 - files/spss section 3.docx` | `سكشن 3 — ثبات الاستبيان.pptx`, `.ppsx` |
+| 4 | [سكشن 4 — اختبارات الفروض للمتوسط](https://claude.ai/artifact/AxqRuGr6HA1h1neQcnRtpp) | [Section 4 — Hypothesis tests for the mean](https://claude.ai/artifact/6ApAwNxuX4GsHDb1topDfR) | `Section 4 - files/المحاضرة الرابعة SPSS.pdf` | `سكشن 4 — اختبارات الفروض للمتوسط.pptx`, `.ppsx` (English `.pptx` in `Section 4 - files/`) |
 
 ## Adding a section
 

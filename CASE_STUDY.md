@@ -26,6 +26,10 @@ q4 is worded negatively on purpose: in the pilot data it correlates −.279 with
 
 ## Sections so far
 - Section 3: reliability of Part B on the 10-student pilot (data in `Section 3 - files/SECTION3_PLAN.md`).
+- Section 4: hypothesis tests for the mean on the **attitude score** (each student's mean of the five reliable items q1, q2, q3, q5, q6; Scale, 1 to 5, 3 = neutral).
+  - One-sample t-test: 12 randomly chosen respondents, test value 3. Mean 3.68, Sig = .001, so students' attitude is significantly positive.
+  - Paired-samples t-test: 8 students before and after two weeks of one course taught fully online, 99% confidence. Mean 2.80 → 3.35, Sig = .001 < .01, so the trial improved attitudes.
+  - Data and SPSS output in `Section 4 - files/SECTION4_PLAN.md`.
 
 ## Ideas for later sections (not yet agreed with Mohamed)
-Descriptive statistics of the items and the total attitude score; comparing attitudes by gender or faculty; correlation between items. Each would need the 400-student data, which does not exist yet and would have to be written for the section.
+Comparing attitudes by gender or faculty (independent-samples t-test, ANOVA) using Part A; correlation between items; descriptive statistics of the attitude score. Each would need the 400-student data, which does not exist yet and would have to be written for the section.
