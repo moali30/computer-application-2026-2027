@@ -30,6 +30,7 @@ q4 is worded negatively on purpose: in the pilot data it correlates −.279 with
   - One-sample t-test: 12 randomly chosen respondents, test value 3. Mean 3.68, Sig = .001, so students' attitude is significantly positive.
   - Paired-samples t-test: 8 students before and after two weeks of one course taught fully online, 99% confidence. Mean 2.80 → 3.35, Sig = .001 < .01, so the trial improved attitudes.
   - Data and SPSS output in `Section 4 - files/SECTION4_PLAN.md`.
+- Section 5: chi-square test of independence on Part A × Part B: faculty (Business / Engineering / Dentistry) × q3 grouped into agree (4–5) / not agree (1–3), 20 students. Sig = .028, so support for fully online courses depends on faculty (Business 6 of 7 agree, Dentistry 1 of 7). Data in `Section 5 - files/SECTION5_PLAN.md`.
 
 ## Ideas for later sections (not yet agreed with Mohamed)
 Comparing attitudes by gender or faculty (independent-samples t-test, ANOVA) using Part A; correlation between items; descriptive statistics of the attitude score. Each would need the 400-student data, which does not exist yet and would have to be written for the section.
