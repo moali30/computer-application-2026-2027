@@ -1,0 +1,112 @@
+{
+ "v": 4,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-24T11:22:25Z"
+ },
+ "title": "Section 4 — Hypothesis tests for the mean",
+ "cover": "cover",
+ "order": [
+  "cover",
+  "hook",
+  "agenda",
+  "d1",
+  "case",
+  "hyp",
+  "rule",
+  "d2",
+  "os-how",
+  "os-shots",
+  "ex1data",
+  "ex1ans",
+  "casea",
+  "caseaans",
+  "d3",
+  "ps-how",
+  "ps-shots",
+  "ex3data",
+  "ex3ans",
+  "caseb",
+  "casebans",
+  "alpha",
+  "d4",
+  "ex2a",
+  "ex2b",
+  "ex4a",
+  "ex4b",
+  "summary"
+ ],
+ "sections": {
+  "s1": {
+   "description": "Opening and plan",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "Hypotheses and the decision rule",
+   "start": "d1"
+  },
+  "s3": {
+   "description": "One-sample t-test",
+   "start": "d2"
+  },
+  "s4": {
+   "description": "Example 1",
+   "start": "ex1data"
+  },
+  "s5": {
+   "description": "Case application 1",
+   "start": "casea"
+  },
+  "s6": {
+   "description": "Paired-samples t-test",
+   "start": "d3"
+  },
+  "s7": {
+   "description": "Example 3",
+   "start": "ex3data"
+  },
+  "s8": {
+   "description": "Case application 2",
+   "start": "caseb"
+  },
+  "s9": {
+   "description": "Reading output: examples 2 and 4",
+   "start": "d4"
+  },
+  "s10": {
+   "description": "Example 2",
+   "start": "ex2a"
+  },
+  "s11": {
+   "description": "Example 4",
+   "start": "ex4a"
+  },
+  "s12": {
+   "description": "Wrap-up",
+   "start": "summary"
+  }
+ },
+ "faces": {
+  "readex-pro": {
+   "family": "Readex Pro",
+   "href": "https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400..700&display=swap"
+  },
+  "ibm-plex-sans-arabic": {
+   "family": "IBM Plex Sans Arabic",
+   "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+  },
+  "ibm-plex-mono": {
+   "family": "IBM Plex Mono",
+   "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"
+  }
+ },
+ "designSystems": [
+  {
+   "title": "Computer Application Sections",
+   "namespace": "compapp",
+   "artifact": "https://claude.ai/artifact/VLRrkrryr4GtjK1rRZivek",
+   "version": "1790426911-4c65",
+   "copiedAt": "2026-10-24T11:18:46Z"
+  }
+ ]
+}
